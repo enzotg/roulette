@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style> 
+    :root{
+        --color-borde:rgb(248, 186, 31);        
+        --color-numero:white;
+        --color-back:black;
+        --color-back2:rgb(46, 45, 43);
+    }
+
+    *{
+        box-sizing: border-box;
+    }
+    body{        
+        background-color: var(--color-back);
+        margin: 0;
+        padding: 0;
+        font-family:  'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    /*************/
+    .contrul{
+        z-index: -100;
+        margin: 1rem;
+        background-color: var(--color-borde);
+        border-radius: 50%;        
+        position: relative;
+        height: 28rem;
+        width: 28rem;      
+        transition: all 2s;
+    }
+    .circa{
+        border: 2px solid var(--color-borde);
+        background-color: transparent;
+        border-radius: 50%;
+        height: 24rem;
+        width:  24rem;      
+        position: absolute;
+        left: 50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+    }
+    .circab{
+        background-color: var(--color-back);
+        height: 20rem;
+        width:  20rem; 
+    }
+    .circac{        
+        height: 28rem;
+        width:  28rem;      
+    }
+    .circad{        
+        background-color: var(--color-borde);
+        background: linear-gradient(125deg,var(--color-borde),var(--color-back2),var(--color-borde),var(--color-back2),var(--color-borde));
+        height: 8rem;
+        width:  8rem;      
+        clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 
+                                   60% 60%, 50% 100%,
+                                   40% 60%, 0%   50%,
+                                   40% 40%  );        
+    }
+
+    .contrul .casillero{
+        background-color: var(--color-back2);        
+        left:208px;
+
+        width:  2rem;
+        height: 28rem;
+        font-size: 1rem;        
+        position: absolute;
+        z-index: -10;        
+        clip-path: polygon(0% 0%, 100% 0%, 50% 50%, 50% 50% );        
+    }
+    .contrul .casillero .numero{ 
+        z-index: 100;
+        color: var(--color-numero);
+        font-weight: 600;
+        height: 2rem;       
+        line-height: 2rem;
+        text-align: center;         
+    }
+    .contrul .casillero .cantidad{
+        padding-top:4px ;
+        color: var(--color-numero);
+        text-align: center; 
+        font-size: .8rem;
+    }
+    .contrul-fondo{
+        width: 30rem;      
+        display: block;
+    }
+    .contrul-contr{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10rem;
+    }
+    .contrul-contr button{
+        border: none;      
+        color: var(--color-numero);
+        background-color: var(--color-back);        
+    }
+    .contrul-contr button:hover{
+        cursor: pointer;
+    } 
+</style>
+<body>  
+
+    <div class="contrul-fondo">
+        <div class="contrul-contr">
+            <button onclick="mover(-1)"><</button>
+            <button onclick="mover(1)">></button>
+        </div>
+        <div class="contrul" id="contrulid">   
+        <!--
+
+
+            <span class="casillero">
+                <div class="numero">01</div>
+                <div class="cantidad">840</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">02</div>
+                <div class="cantidad">2840</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">03</div>
+                <div class="cantidad">840</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">20</div>
+                <div class="cantidad">2840</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">10</div>
+                <div class="cantidad">840</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">20</div>
+                <div class="cantidad">9240</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">10</div>
+                <div class="cantidad">840</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">20</div>
+                <div class="cantidad">2840</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">20</div>
+                <div class="cantidad">2840</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">20</div>
+                <div class="cantidad">2840</div>
+            </span>
+            <span class="casillero">
+                <div class="numero">11</div>
+                <div class="cantidad">1x</div>
+            </span>
+        -->
+        </div>
+    </div>    
+
+</body>
+</html>
+
+<script>
+
+    window.addEventListener('load', cargar);
+    
+    function mover(e){
+        let cont = document.getElementById("contrulid");        
+        let deg = 0;
+        if(cont.style.transform != "")
+            deg = cont.style.transform.substr(
+                cont.style.transform.indexOf("(") +1,
+                cont.style.transform.indexOf("deg") -
+                cont.style.transform.indexOf("(")-1   );
+        if(!e) e=1;
+        deg = (parseInt(deg) + 90 * e) ;
+        
+        cont.style.transform = " rotate(" + deg + "deg)";
+    }
+
+    function  cargar(){
+
+        const Cant_Nros = 37;
+        const rojos = [32, 19, 21, 25, 34, 27, 36, 30, 23, 5, 16, 1, 14, 9, 18, 7, 12, 3];
+        let nros=[];
+        let grados = 360 / Cant_Nros;
+
+        for(let i=0;i<Cant_Nros ;i++) {
+            
+            nros.push(new rulnros(i, Math.trunc(Math.random()*1000)));
+        }
+
+        let cont = document.getElementById("contrulid");
+        nros.forEach((value,index)=>{
+
+            let d1 = document.createElement("span");
+            let d2 = document.createElement("div");
+            let d3 = document.createElement("div");
+
+            d1.classList = "casillero";
+            d2.classList = "numero";
+            d3.classList = "cantidad";
+
+            d1.style.transform = "rotate(" + (grados * index).toFixed(2) + "deg) ";
+            
+            if(rojos.indexOf(value.numero)>=0)
+                d2.style.backgroundColor = "brown";
+            else
+                d2.style.backgroundColor = "black";
+
+            if(value.numero==0) d2.style.backgroundColor = "green";
+
+            d2.innerText=value.numero;
+            d3.innerText=value.cantidad;
+
+
+            d1.appendChild(d2);
+            d1.appendChild(d3);
+            cont.appendChild(d1);            
+        });
+        let d1 = document.createElement("div");
+        let d2 = document.createElement("div");
+        let d3 = document.createElement("div");
+        let d4 = document.createElement("div");
+        d1.classList = "circa";
+        d2.classList = "circa circab";
+        d3.classList = "circa circac";
+        d4.classList = "circa circad";
+
+        cont.appendChild(d1);
+        cont.appendChild(d2);
+        cont.appendChild(d3);
+        cont.appendChild(d4);
+    }
+
+    function rulnros(nro, cant){
+        this.numero = nro;
+        this.cantidad = cant;
+    }
+
+
+</script>
